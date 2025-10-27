@@ -190,6 +190,8 @@ export class Slider extends PureComponent<SliderProps, SliderState> {
         value: 0,
         vertical: false,
         startFromZero: false,
+        vertical: false, // NM add
+        startFromZero: false, // NM add
     };
 
     static getDerivedStateFromProps(props: SliderProps, state: SliderState) {
@@ -405,15 +407,19 @@ export class Slider extends PureComponent<SliderProps, SliderState> {
     };
     _getValue = (gestureState: {dx: number; dy: number}) => {
         const {containerSize, thumbSize, values} = this.state;
-        const {maximumValue, minimumValue, step, vertical} = this.props;
+        //const {maximumValue, minimumValue, step, vertical} = this.props; // NM Delete
+        const {lowerLimit, upperLimit, maximumValue, minimumValue, step, vertical} = this.props; // NM Add
+        
         const length = containerSize.width - thumbSize.width;
         const thumbLeft = vertical
             ? this._previousLeft + gestureState.dy * -1
             : this._previousLeft + gestureState.dx;
         const nonRtlRatio = thumbLeft / length;
         const ratio = I18nManager.isRTL ? 1 - nonRtlRatio : nonRtlRatio;
-        let minValue = minimumValue;
-        let maxValue = maximumValue;
+        //let minValue = minimumValue; NM DELETE
+        //let maxValue = maximumValue; // NM DELETE
+        let minValue = !!lowerLimit || lowerLimit === 0 ? lowerLimit : minimumValue; // NM ADD
+        let maxValue = !!upperLimit || upperLimit === 0 ? upperLimit : maximumValue; // NM ADD
 
         const rawValues = this._getRawValues(values);
 
