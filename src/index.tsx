@@ -190,8 +190,8 @@ export class Slider extends PureComponent<SliderProps, SliderState> {
         value: 0,
         vertical: false,
         startFromZero: false,
-        vertical: false, // NM add
-        startFromZero: false, // NM add
+        lowerLimit: undefined, // NM add
+        upperLimit: undefined, // NM add
     };
 
     static getDerivedStateFromProps(props: SliderProps, state: SliderState) {
